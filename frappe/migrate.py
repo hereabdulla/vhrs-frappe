@@ -34,7 +34,7 @@ def migrate(verbose=True, rebuild_website=False):
 	frappe.translate.clear_cache()
 	sync_fixtures()
 	sync_customizations()
-	sync_desktop_icons()
+	#sync_desktop_icons()
 	sync_languages()
 
 	frappe.get_doc('Portal Settings', 'Portal Settings').sync_menu()
