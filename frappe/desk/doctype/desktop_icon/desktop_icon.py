@@ -311,10 +311,10 @@ def make_user_copy(module_name, user):
 
 	return desktop_icon
 
-#def sync_desktop_icons():
-#	'''Sync desktop icons from all apps'''
-#	for app in frappe.get_installed_apps():
-#		sync_from_app(app)
+def sync_desktop_icons():
+	'''Sync desktop icons from all apps'''
+	for app in frappe.get_installed_apps():
+		sync_from_app(app)
 
 def sync_from_app(app):
 	'''Sync desktop icons from app. To be called during install'''
