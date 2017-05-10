@@ -16,42 +16,43 @@ from frappe.core.doctype.language.language import sync_languages
 from frappe.modules.utils import sync_customizations
 import frappe.utils.help
 
+
 def migrate(verbose=True, rebuild_website=False):
-	'''Migrate all apps to the latest version, will:
+    '''Migrate all apps to the latest version, will:
 
-	- run patches
-	- sync doctypes (schema)
-	- sync fixtures
-	- sync desktop icons
-	- sync web pages (from /www)'''
-	frappe.flags.in_migrate = True
-	clear_global_cache()
+    - run patches
+    - sync doctypes (schema)
+    - sync fixtures
+    - sync desktop icons
+    - sync web pages (from /www)'''
+    frappe.flags.in_migrate = True
+    clear_global_cache()
 
-	# run patches
-	frappe.modules.patch_handler.run_all()
-	# sync
-	frappe.model.sync.sync_all(verbose=verbose)
-	frappe.translate.clear_cache()
-	sync_fixtures()
-	sync_customizations()
-	#sync_desktop_icons()
-	sync_languages()
+    # run patches
+    frappe.modules.patch_handler.run_all()
+    # sync
+    frappe.model.sync.sync_all(verbose=verbose)
+    frappe.translate.clear_cache()
+    sync_fixtures()
+    sync_customizations()
+    sync_desktop_icons()
+    sync_languages()
 
-	frappe.get_doc('Portal Settings', 'Portal Settings').sync_menu()
+    frappe.get_doc('Portal Settings', 'Portal Settings').sync_menu()
 
-	# syncs statics
-	render.clear_cache()
+    # syncs statics
+    render.clear_cache()
 
-	# add static pages to global search
-	router.sync_global_search()
+    # add static pages to global search
+    router.sync_global_search()
 
-	frappe.db.commit()
+    frappe.db.commit()
 
-	if not frappe.conf.get('global_help_setup'):
-		# sync help if not set as global
-		frappe.utils.help.sync()
+    if not frappe.conf.get('global_help_setup'):
+        # sync help if not set as global
+        frappe.utils.help.sync()
 
-	clear_notifications()
+    clear_notifications()
 
-	frappe.publish_realtime("version-update")
-	frappe.flags.in_migrate = False
+    frappe.publish_realtime("version-update")
+    frappe.flags.in_migrate = False
