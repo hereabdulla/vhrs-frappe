@@ -19,7 +19,7 @@ class AutoEmailReport(Document):
 		self.name = _(self.report)
 
 	def validate(self):
-		self.validate_report_count()
+		# self.validate_report_count()
 		self.validate_emails()
 		self.validate_report_format()
 
